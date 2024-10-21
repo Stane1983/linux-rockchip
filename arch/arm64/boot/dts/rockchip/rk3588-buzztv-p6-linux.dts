@@ -1,0 +1,82 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright (c) 2021 Rockchip Electronics Co., Ltd.
+ *
+ */
+
+/dts-v1/;
+
+#include "rk3588-buzztv-p6-lp4.dtsi"
+#include "rk3588-evb7-imx415.dtsi"
+#include "rk3588-linux.dtsi"
+
+/ {
+    model = "BuzzTV P6 PowerStation";
+    compatible = "rockchip,rk3588-p6", "rockchip,rk3588";
+
+    /delete-node/ chosen;
+    chosen: chosen {
+        bootargs = "earlycon=uart8250,mmio32,0xfeb50000 console=ttyFIQ0 irqchip.gicv3_pseudo_nmi=0 root=PARTUUID=614e0000-0000 rw rootwait rcupdate.rcu_expedited=1 rcu_nocbs=all quiet splash";
+    };
+};
+
+&i2s6_8ch {
+    assigned-clock-parents = <&cru PLL_AUPLL>;
+};
+
+&dp1 {
+    clocks = <&cru PCLK_DP1>, <&cru CLK_AUX16M_1>,
+         <&cru MCLK_I2S8_8CH_TX>, <&cru MCLK_SPDIF5_DP1>,
+         <&hclk_vo0>;
+    clock-names = "apb", "aux", "i2s", "spdif", "hclk";
+};
+
+&dp1_in_vp0 {
+    status = "disabled";
+};
+
+&dp1_in_vp1 {
+    status = "disabled";
+};
+
+&hdmi0_in_vp1 {
+    status = "disabled";
+};
+
+&hdmi0_in_vp2 {
+    status = "disabled";
+};
+
+&hdmi1 {
+    status = "disabled";
+};
+
+&hdmi1_in_vp0 {
+    status = "disabled";
+};
+
+&hdmi1_in_vp2 {
+    status = "disabled";
+};
+
+&hdmi1_sound {
+    status = "disabled";
+};
+
+&hdptxphy_hdmi1 {
+    status = "disabled";
+};
+&route_dp1 {
+    status = "disabled";
+};
+
+&route_hdmi0 {
+    status = "okay";
+    connect = <&vp0_out_hdmi0>;
+    /delete-property/ force-output;
+    /delete-node/ force_timing;
+};
+
+&route_hdmi1 {
+    status = "disabled";
+};
